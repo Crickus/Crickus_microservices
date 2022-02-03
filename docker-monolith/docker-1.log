@@ -1,5 +1,0 @@
-REPOSITORY                TAG       IMAGE ID       CREATED              SIZE
-crickus/ubuntu-tmp-file   latest    3fc368ee4be5   About a minute ago   135MB
-alpine/git                latest    c6b70534b534   2 months ago         27.4MB
-hello-world               latest    feb5d9fea6a5   4 months ago         13.3kB
-ubuntu                    16.04     b6f507652425   5 months ago         135MB
