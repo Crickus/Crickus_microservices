@@ -7,7 +7,7 @@ projects:
   - docker-340113
 # scopes:
 #   - https://www.googleapis.com/auth/compute
-service_account_file: ~/gcpkeys/appuser-private.json
+service_account_file: ~/gcpkeys/docker-private.json
 auth_kind: serviceaccount
 # filters:
 #   - labels.env = stage
@@ -19,6 +19,8 @@ auth_kind: serviceaccount
 hostnames:
   # List hosts by name instead of the default public ip
   - name
+groups:
+  docker: "'docker' in name"
 compose:
   # Set an inventory parameter to use the Public IP address to connect to the host
   # For Private ip use "networkInterfaces[0].networkIP"
