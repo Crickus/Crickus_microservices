@@ -17,7 +17,7 @@ variable public_key_path {
 }
 
 variable private_key_path {
-  description = "Path to publick key used for ssh access"
+  description = "Path to private key used for ssh access"
 }
 
 variable "number_of_instances" {
