@@ -1,0 +1,11 @@
+project = "docker-340113"
+
+public_key_path = "~/.ssh/appuser.pub"
+
+region = "europe-west1"
+
+private_key_path = "~/.ssh/appuser"
+
+number_of_instances = 1
+
+location = "europe-west1"
