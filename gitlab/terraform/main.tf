@@ -147,3 +147,16 @@ resource "google_compute_firewall" "firewall_ssh" {
 
   source_ranges = "${var.source_ranges}"
 }
+
+resource "google_compute_firewall" "firewall_puma" {
+  name        = "default-allow-puma"
+  network     = "default"
+  description = "Allow Puma from anywhere"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["9292"]
+  }
+
+  source_ranges = "${var.source_ranges}"
+}

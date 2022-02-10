@@ -9,9 +9,9 @@ stages:
 
 variables: 
   DATABASE_URL: 'mongodb://mongo/user_posts' 
-  SERVER_IP: 34.79.139.39       
-  REPO_NAME: express42/reddit     
-  DEPLOY_USER: deploy_user 
+  # SERVER_IP: 34.79.139.39       
+  # REPO_NAME: express42/reddit     
+  # DEPLOY_USER: deploy_user 
 
 before_script: 
   - cd reddit 
@@ -22,7 +22,7 @@ build_job:
   stage: build
   script:
     - echo 'Building'
-    - puma
+    # - puma
 
 test_unit_job: 
   stage: test 
@@ -41,7 +41,7 @@ deploy_dev_job:
   stage: review
   script:
     - echo 'Deploy'
-    - bundle exec cap production deploy:initial
+    # - bundle exec cap production deploy:initial
   environment:
     name: dev
     url: http://dev.example.com

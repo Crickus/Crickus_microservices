@@ -17,4 +17,13 @@ cd /srv/gitlab/
 sudo mv /tmp/docker-compose.yml /srv/gitlab/docker-compose.yml
 sudo mv /tmp/.env /srv/gitlab/.env
 sudo docker-compose up -d
-
+# sudo docker-compose exec gitlab-runner \
+#     gitlab-runner register \
+#     --non-interactive \
+#     --url $MY_IP \
+#     --registration-token <YOUR-GITLAB-REGISTRATION-TOKEN> \
+#     --executor docker \
+#     --description "my-runner" \
+#     --docker-image "alpine:latest"
+echo "extra_hosts = ["gitlab.example.com:`curl ifconfig.me`"]" >> /srv/gitlab-runner/config/config.toml
+echo "dns = ["8.8.8.8"]" >> /srv/gitlab-runner/config/config.toml
