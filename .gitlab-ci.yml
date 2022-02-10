@@ -7,14 +7,29 @@ stages:
   - stage
   - production
 
+variables: 
+  DATABASE_URL: 'mongodb://mongo/user_posts' 
+  SERVER_IP: 34.79.139.39       
+  REPO_NAME: express42/reddit     
+  DEPLOY_USER: deploy_user 
+
+before_script: 
+  - cd reddit 
+  - apt update
+  - bundle install 
+
 build_job:
   stage: build
   script:
     - echo 'Building'
+    - puma
 
-test_unit_job:
-  stage: test
-  script:
+test_unit_job: 
+  stage: test 
+  services: 
+    - mongo:latest 
+  script: 
+    - ruby simpletest.rb
     - echo 'Testing 1'
 
 test_integration_job:
@@ -26,9 +41,21 @@ deploy_dev_job:
   stage: review
   script:
     - echo 'Deploy'
+    - bundle exec cap production deploy:initial
   environment:
     name: dev
     url: http://dev.example.com
+
+branch review: 
+  stage: review 
+  script: echo "Deploy to $CI_ENVIRONMENT_SLUG" 
+  environment: 
+    name: branch/$CI_COMMIT_REF_NAME 
+    url: http://$CI_ENVIRONMENT_SLUG.example.com 
+  only: 
+    - branches 
+  except: 
+    - master 
 
 staging:
   stage: stage
@@ -51,18 +78,3 @@ production:
   environment:
     name: production
     url: https://example.com    
-
-
-variables: 
-  DATABASE_URL: 'mongodb://mongo/user_posts' 
-before_script: 
-  - cd reddit 
-  - apt update
-  - bundle install 
-
-# test_unit_job: 
-#   stage: test 
-#   services: 
-#     - mongo:latest 
-#   script: 
-#     - ruby simpletest.rb
