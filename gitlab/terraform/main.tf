@@ -21,7 +21,7 @@ resource "google_compute_instance" "gitlab" {
 
   boot_disk {
     initialize_params {
-      image = "docker"
+      image = "docker-compose"
     }
   }
 
@@ -49,9 +49,39 @@ resource "google_compute_instance" "gitlab" {
     #   destination = "/tmp/set_env.sh"
     # }
 
+    provisioner "file" {
+        source      = "./files/script.sh"
+        destination = "/tmp/script.sh"
+      }
+
+    provisioner "file" {
+      source      = "./files/docker-compose.yml"
+      destination = "/tmp/docker-compose.yml"
+    }
+
+    provisioner "file" {
+      source      = "./files/.env"
+      destination = "/tmp/.env"
+    }
+
+    provisioner "remote-exec" {
+      inline = [
+      "export MY_IP=http://$(curl ifconfig.me)"
+      # "export MY_IP=\"${google_compute_instance.gitlab.*.network_interface.0.access_config.0.nat_ip}\""
+      ]
+    }
+
+    provisioner "remote-exec" {
+      inline = [
+        "chmod +x /tmp/script.sh",
+        "sudo /tmp/script.sh args",
+      ]
+    }
+
+
     # provisioner "remote-exec" {
     #   inline = [
-    #   "mkdir -p /srv/gitlab/config /srv/gitlab/data /srv/gitlab/logs"
+    #   "sudo mkdir -p /srv/gitlab/config /srv/gitlab/data /srv/gitlab/logs",
     #   "cd /srv/gitlab/" 
     #   ]
     # }
@@ -64,6 +94,7 @@ resource "google_compute_instance" "gitlab" {
     # provisioner "remote-exec" {
     #   inline = [
     #   "export MY_IP=\"$(curl ifconfig.me)\""
+    #   # "export MY_IP=\"${google_compute_instance.gitlab.*.network_interface.0.access_config.0.nat_ip}\""
     #   ]
     # }
 
