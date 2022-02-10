@@ -25,5 +25,4 @@ sudo docker-compose up -d
 #     --executor docker \
 #     --description "my-runner" \
 #     --docker-image "alpine:latest"
-echo "extra_hosts = ["gitlab.example.com:`curl ifconfig.me`"]" >> /srv/gitlab-runner/config/config.toml
-echo "dns = ["8.8.8.8"]" >> /srv/gitlab-runner/config/config.toml
+
