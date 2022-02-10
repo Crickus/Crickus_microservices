@@ -57,7 +57,7 @@ variables:
   DATABASE_URL: 'mongodb://mongo/user_posts' 
 before_script: 
   - cd reddit 
-  - sudo apt-get update
+  - apt update
   - bundle install 
 
 # test_unit_job: 
