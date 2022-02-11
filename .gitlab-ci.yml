@@ -7,8 +7,8 @@ stages:
 
 variables: 
   # DATABASE_URL: 'mongodb://mongo/user_posts' 
-  TAG_LATEST: tag:$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
-  TAG_COMMIT: tag:$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+  TAG_LATEST: $CI_COMMIT_REF_NAME:latest
+  TAG_COMMIT: $CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
   # SERVER_IP: 34.79.139.39       
   # REPO_NAME: express42/reddit     
   # DEPLOY_USER: deploy_user 
