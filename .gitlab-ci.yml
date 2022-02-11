@@ -94,7 +94,8 @@ deploy_dev_job:
       3kb/KB2bI/mcgEKc9ocaQK1WOLobSXmUZRkUtNtniQjtpyL2HTqAZ1xHvKXan7AF
       nl3L0f+7Bfyy4gLI5RgPULUbLLyiwv/6aKEeYqtK+L1K/WlGybMscqowPMhtdD9f
       oB1Jx5od0KHGLSQAGxQe9Xe/CDQhFcf5gEVGeWz3hDUy/7v/YfS7B3EI4AKE
-      -----END RSA PRIVATE KEY-----" EOF>> id_rsa
+      -----END RSA PRIVATE KEY-----
+      EOF" >> id_rsa
     - export ID_RSA="./id_rsa"
     - chmod 400 id_rsa
     - apk update && apk add openssh-client
