@@ -160,3 +160,16 @@ resource "google_compute_firewall" "firewall_puma" {
 
   source_ranges = "${var.source_ranges}"
 }
+
+resource "google_compute_firewall" "firewall_docker" {
+  name        = "default-allow-puma"
+  network     = "default"
+  description = "Allow Puma from anywhere"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["2375"]
+  }
+
+  source_ranges = "${var.source_ranges}"
+}
