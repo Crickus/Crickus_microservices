@@ -14,9 +14,6 @@ variables:
   # REPO_NAME: express42/reddit     
   # DEPLOY_USER: deploy_user 
 
-before_script:
-  - echo $CI_JOB_TOKEN | docker login --username gitlab-ci-token --password-stdin $CI_REGISTRY
-
 build_job:
   image: docker:latest
   stage: build
