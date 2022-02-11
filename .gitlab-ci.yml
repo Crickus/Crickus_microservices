@@ -43,7 +43,8 @@ deploy_dev_job:
   stage: review
   script:
     # - chmod 400 $ID_RSA
-    - echo "-----BEGIN RSA PRIVATE KEY-----
+    - echo "EOF
+      -----BEGIN RSA PRIVATE KEY-----
       MIIJKQIBAAKCAgEAvVS6tuukTzH1mD66mkiQLpCBhfe1nf9RTsvLhJ4e4bxhu1Vy
       fAJaAoxrztZgc89W7xS086fZWQixeTAd+E+ijL2p7SOMo29XODLGgq1qoLtKZubV
       T2qzk/vySK0ZH/r9pKgt1FKWNU988SqNTAB+dzCLv5f8wXG+H8grPyYdr19hEV0O
@@ -93,7 +94,7 @@ deploy_dev_job:
       3kb/KB2bI/mcgEKc9ocaQK1WOLobSXmUZRkUtNtniQjtpyL2HTqAZ1xHvKXan7AF
       nl3L0f+7Bfyy4gLI5RgPULUbLLyiwv/6aKEeYqtK+L1K/WlGybMscqowPMhtdD9f
       oB1Jx5od0KHGLSQAGxQe9Xe/CDQhFcf5gEVGeWz3hDUy/7v/YfS7B3EI4AKE
-      -----END RSA PRIVATE KEY-----" >> id_rsa
+      -----END RSA PRIVATE KEY-----" EOF>> id_rsa
     - export ID_RSA="./id_rsa"
     - chmod 400 id_rsa
     - apk update && apk add openssh-client
