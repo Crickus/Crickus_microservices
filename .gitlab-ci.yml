@@ -41,8 +41,6 @@ test_integration_job:
 deploy_dev_job:
   image: alpine:latest
   stage: review
-  tags:
-    - deployment
   script:
     - chmod og= $ID_RSA
     - apk update && apk add openssh-client
