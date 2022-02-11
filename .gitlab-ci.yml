@@ -44,17 +44,15 @@ deploy_dev_job:
   script:
     # - chmod 400 $ID_RSA
     - echo `pwd`
-    - echo `ls -lah /`
-    - echo `ls -lah /home/`
+    - echo `ls -lah /srv/`
+    - echo `ls -lah`
     - $ID_RSA
-    - $SERVER_USER
-    - $SERVER_IP
     - chmod 400 id_rsa
     - apk update && apk add openssh-client
     # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
     # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $TAG_COMMIT"
     # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f my-app || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 9292:9292--name my-app $TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no deployer@34.79.139.39 "docker run -d -p 9292:9292--name my-app $TAG_COMMIT"
     - echo 'Deploy'
     # - bundle exec cap production deploy:initial
   environment:
