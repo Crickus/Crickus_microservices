@@ -6,7 +6,7 @@ stages:
   - production
 
 variables: 
-  DOCKER_HOST: tcp://localhost:2375/
+  # DOCKER_HOST: tcp://localhost:2375/
   # DATABASE_URL: 'mongodb://mongo/user_posts' 
   TAG_LATEST: $CI_COMMIT_REF_NAME:latest
   TAG_COMMIT: $CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
