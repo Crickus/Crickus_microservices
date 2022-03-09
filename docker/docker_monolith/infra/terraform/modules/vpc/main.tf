@@ -193,16 +193,58 @@ resource "google_compute_firewall" "firewall_telegraf_mon" {
   target_tags   = ["docker"]
 }
 
-# resource "google_compute_firewall" "firewall_stackdriver" {
-#   name        = "default-allow-stackdriver"
-#   network     = "default"
-#   description = "Allow stackdriver monitoring from anywhere"
+resource "google_compute_firewall" "firewall_fluentd_tcp" {
+  name        = "default-allow-fluentd-tcp"
+  network     = "default"
+  description = "Allow fluentd tcp from anywhere"
 
-#   allow {
-#     protocol = "tcp"
-#     ports    = ["9255"]
-#   }
+  allow {
+    protocol = "tcp"
+    ports    = ["24224"]
+  }
 
-#   source_ranges = "${var.source_ranges}"
-#   target_tags   = ["docker"]
-# }
+  source_ranges = "${var.source_ranges}"
+  target_tags   = ["docker"]
+}
+
+resource "google_compute_firewall" "firewall_fluentd_udp" {
+  name        = "default-allow-fluentd-udp"
+  network     = "default"
+  description = "Allow fluentd udp from anywhere"
+
+  allow {
+    protocol = "udp"
+    ports    = ["24224"]
+  }
+
+  source_ranges = "${var.source_ranges}"
+  target_tags   = ["docker"]
+}
+
+resource "google_compute_firewall" "firewall_elastic" {
+  name        = "default-allow-elasticsearch"
+  network     = "default"
+  description = "Allow elasticsearch from anywhere"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["9200"]
+  }
+
+  source_ranges = "${var.source_ranges}"
+  target_tags   = ["docker"]
+}
+
+resource "google_compute_firewall" "firewall_kibana" {
+  name        = "default-allow-kibana"
+  network     = "default"
+  description = "Allow kibana from anywhere"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["5601"]
+  }
+
+  source_ranges = "${var.source_ranges}"
+  target_tags   = ["docker"]
+}
