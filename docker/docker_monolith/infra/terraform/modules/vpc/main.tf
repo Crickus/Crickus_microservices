@@ -193,6 +193,34 @@ resource "google_compute_firewall" "firewall_telegraf_mon" {
   target_tags   = ["docker"]
 }
 
+resource "google_compute_firewall" "firewall_fluentd" {
+  name        = "default-allow-fluentd"
+  network     = "default"
+  description = "Allow fluentd from anywhere"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["5140"]
+  }
+
+  source_ranges = "${var.source_ranges}"
+  target_tags   = ["docker"]
+}
+
+resource "google_compute_firewall" "firewall_zipkin" {
+  name        = "default-allow-zipkin"
+  network     = "default"
+  description = "Allow zipkin from anywhere"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["9411"]
+  }
+
+  source_ranges = "${var.source_ranges}"
+  target_tags   = ["docker"]
+}
+
 resource "google_compute_firewall" "firewall_fluentd_tcp" {
   name        = "default-allow-fluentd-tcp"
   network     = "default"
@@ -229,6 +257,20 @@ resource "google_compute_firewall" "firewall_elastic" {
   allow {
     protocol = "tcp"
     ports    = ["9200"]
+  }
+
+  source_ranges = "${var.source_ranges}"
+  target_tags   = ["docker"]
+}
+
+resource "google_compute_firewall" "firewall_elastic_new" {
+  name        = "default-allow-elasticsearch-new"
+  network     = "default"
+  description = "Allow elasticsearch new from anywhere"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["9300"]
   }
 
   source_ranges = "${var.source_ranges}"
