@@ -1,0 +1,114 @@
+version: '3.3'
+services:
+  prometheus:
+    image: ${USERNAME}/prometheus
+    ports:
+      - '9090:9090'
+    networks:
+      - back_net
+      - front_net
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d'
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    networks:
+      - back_net
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+  mongodb_exporter:
+    image: ${USERNAME}/mongodb_exporter:${MONGODB_EXPORTER_VERSION}
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+    ports:
+      - '9216:9216'
+    networks:
+      - back_net
+  # blackbox-exporter:
+  #   image: prom/blackbox-exporter:${BLACKBOX_EXPORTER_VERSION}
+  #   networks:
+  #     - front_net
+  #     - back_net
+
+  # stackdriver-exporter:
+  #   image: gcr.io/stackdriver-prometheus/stackdriver-prometheus-sidecar
+  #   args:
+  #     - "--stackdriver.project-id=docker-340113"
+  #     - "--prometheus.wal-directory=/data/wal"
+  #     - "--prometheus.api-address=http://10.0.2.1:9090"
+  #     - "--stackdriver.kubernetes.location=europe-west1-b"
+  #   networks:
+  #     - back_net
+  #     - front_net
+  #   ports:
+  #     - '9255:9255'
+
+  cadvisor:
+    image: google/cadvisor:v0.29.0
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+    networks:
+      - back_net
+      - front_net
+    ports:
+      - '8080:8080'
+  grafana:
+    image: ${USERNAME}/grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=secret
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    networks:
+      - back_net
+      - front_net
+  alertmanager:
+    image: ${USERNAME}/alertmanager
+    ports:
+      - '9093:9093'
+    networks:
+      - back_net
+      - front_net
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+  telegraf:
+    image: ${USERNAME}/telegraf
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - back_net
+      - front_net
+
+volumes:
+  prometheus_data:
+  grafana_data:
+networks:
+  back_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.2.0/24
+  front_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.1.0/24
