@@ -6,7 +6,8 @@ WORKDIR $APP_HOME
 COPY . $APP_HOME
 
 RUN apk update && apk add --no-cache build-base ruby ruby-json ruby-dev ruby-bundler \
-	&& gem install bundler haml --no-ri --no-rdoc \
+	&& gem install bundler --no-ri --no-rdoc \
+	&& gem install haml --no-ri --no-rdoc \
 	&& gem update --system  --no-ri --no-rdoc \
     && bundle install \
 	&& apk del build-base ruby-dev
