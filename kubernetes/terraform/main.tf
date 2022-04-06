@@ -14,15 +14,21 @@ resource "google_container_cluster" "cluster" {
 #   zone               = "${var.zone}"
   initial_node_count = "${var.initial_node_count}"
   node_config {
-  
-    machine_type = "e2-small"
+    preemptible  = "true"
+    machine_type = "n1-standard-1"
   }
 
-#   addons_config {
-#     kubernetes_dashboard {
-#       disabled = false
-#     }
-#   }
+  addons_config {
+    network_policy_config {
+      disabled = false
+    }
+    # kubernetes_dashboard {
+    #   disabled = false
+    # }
+  }
+  network_policy {
+    enabled = true
+  }
 }
 
 resource "google_compute_firewall" "firewall_kuber" {
