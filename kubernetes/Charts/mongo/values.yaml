@@ -1,0 +1,4 @@
+---
+service:
+  internalPort: 27017
+  externalPort: 27017
